@@ -9,14 +9,29 @@ import * as QRCode from 'qrcode';
 export class HomeComponent  {
   @ViewChild('qrCode', { static: false }) qrCode!: ElementRef;
 
-
-  url:string = '';
+  show=false;
+  url:any;
+  imageurl: string='';
   generateQRCode(text: string): void {
     QRCode.toCanvas(this.qrCode.nativeElement, text, (error) => {
       if (error) {
         console.error('Error generating QR code:', error);
       }
+      else{
+        this.show=true;
+      }
     });
+  }
+
+  download(){
+QRCode.toDataURL(this.url,(error,Durl)=>{
+  if(error){
+  console.log("error at download function error: ", error);
+  }
+  else{
+    this.imageurl=Durl;
+  }
+})
   }
 
 
